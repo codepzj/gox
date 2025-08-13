@@ -59,10 +59,49 @@ func TestReverse(t *testing.T) {
 		t.Errorf("Reverse failed: expected %v got %v", expected, result)
 	}
 
-	// 测试空切片
 	empty := []int{}
 	resultEmpty := Reverse(empty)
 	if len(resultEmpty) != 0 {
 		t.Errorf("Reverse failed on empty slice, expected empty got %v", resultEmpty)
+	}
+}
+
+func TestMap(t *testing.T) {
+	arr := []int{1, 2, 3}
+	expected := []int{2, 4, 6}
+	result := Map(arr, func(v int) int {
+		return v * 2
+	})
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("Map failed: expected %v got %v", expected, result)
+	}
+}
+
+func TestFilter(t *testing.T) {
+	arr := []int{1, 2, 3, 4, 5}
+	expected := []int{2, 4}
+	result := Filter(arr, func(v int) bool {
+		return v%2 == 0
+	})
+	if !reflect.DeepEqual(result, expected) {
+		t.Errorf("Filter failed: expected %v got %v", expected, result)
+	}
+}
+
+func TestReduce(t *testing.T) {
+	arr := []int{1, 2, 3, 4}
+	sum := Reduce(arr, func(acc, v int) int {
+		return acc + v
+	}, 0)
+	if sum != 10 {
+		t.Errorf("Reduce sum failed: expected 10 got %v", sum)
+	}
+
+	words := []string{"a", "b", "c"}
+	concat := Reduce(words, func(acc, v string) string {
+		return acc + v
+	}, "")
+	if concat != "abc" {
+		t.Errorf("Reduce concat failed: expected 'abc' got '%v'", concat)
 	}
 }

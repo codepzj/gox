@@ -47,3 +47,29 @@ func Reverse[T any](arr []T) []T {
 	}
 	return arr
 }
+
+func Map[T any, R any](arr []T, fn func(T) R) []R {
+	newSlice := make([]R, len(arr))
+	for i, v := range arr {
+		newSlice[i] = fn(v)
+	}
+	return newSlice
+}
+
+func Filter[T any](arr []T, fn func(T) bool) []T {
+	newSlice := make([]T, 0)
+	for _, v := range arr {
+		if fn(v) {
+			newSlice = append(newSlice, v)
+		}
+	}
+	return newSlice
+}
+
+// 把一系列元素“折叠”成一个值, 每次执行的结果与前一次得到的结果进行运算
+func Reduce[T any, R any](arr []T, fn func(R, T) R, init R) R {
+	for _, v := range arr {
+		init = fn(init, v)
+	}
+	return init
+}
